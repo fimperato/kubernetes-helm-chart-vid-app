@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    k.service.type: Nodeport
+    k.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.k.service: mongodb-vids
+  name: mongodb-vids
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.k.service: mongodb-vids
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        k.service.type: Nodeport
+        k.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.k.service: mongodb-vids
+    spec:
+      containers:
+        - image: mongo:latest
+          name: mongodbvids
+          ports:
+            - containerPort: 27017
+          resources: {}
+      restartPolicy: Always
+status: {}

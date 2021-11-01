@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    k.image-pull-policy: Always
+    k.service.type: Nodeport
+    k.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.k.service: sparkvid-api
+  name: sparkvid-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.k.service: sparkvid-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        k.image-pull-policy: Always
+        k.service.type: Nodeport
+        k.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.k.service: sparkvid-api
+    spec:
+      volumes:
+        - name: sparkvid-api-hostpath0
+          hostPath:
+            path: /app/kubehost/sparkvid/dati/
+        - name: sparkvid-model-hostpath0
+          hostPath:
+            path: /app/kubehost/sparkvid/models/
+      containers:
+        - env:
+            - name: spring.data.mongodb.uri
+              value: mongodb://mongodb-vids:27017/local
+            - name: video.mongo.database
+              value: local
+            - name: video.mongo.uri
+              value: mongodb://mongodb-vids:27017/
+          image: fimperato/sparkvid-api:1.0.3-RELEASE
+          imagePullPolicy: Always
+          name: sparkvidapi
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - name: sparkvid-api-hostpath0
+              mountPath: /app/dati/
+            - name: sparkvid-model-hostpath0
+              mountPath: /app/models/
+
+      restartPolicy: Always
+
+status: {}
