@@ -1,5 +1,5 @@
 name: chart-app-vid
-description: A generated Helm Chart
+description: Helm Chart for film information manager and advice application
 version: 0.0.1
 apiVersion: v1
 keywords:
