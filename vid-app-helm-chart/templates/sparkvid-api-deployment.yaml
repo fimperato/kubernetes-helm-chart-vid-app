@@ -41,7 +41,7 @@ spec:
               value: local
             - name: video.mongo.uri
               value: mongodb://mongodb-vids:27017/
-          image: fimperato/sparkvid-api:1.0.3-RELEASE
+          image: docker.io/fimperato/sparkvid-api:1.0.3-RELEASE
           imagePullPolicy: Always
           name: sparkvidapi
           ports:
