@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  chart-app-vid:
+  - apiVersion: v1
+    created: "2021-11-07T15:36:47.266606954+01:00"
+    description: A generated Helm Chart
+    digest: 60e34ca4e3a20ebde49d2474d366e65c30f8e97cc432aafd851ed6ef6d972f4d
+    keywords:
+    - chart-app-vid
+    name: chart-app-vid
+    urls:
+    - https://fimperato.github.io/kubernetes-helm-chart-vid-app/charts/chart-app-vid-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-11-07T15:36:47.266394388+01:00"
