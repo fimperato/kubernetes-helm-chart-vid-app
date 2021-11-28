@@ -4,27 +4,31 @@ metadata:
   annotations:
     k.image-pull-policy: Always
     k.service.type: Nodeport
-    k.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.k.service: sparkvid-api
+    app: sparkvid-api
+    release: {{ .Release.Name }}
   name: sparkvid-api
 spec:
+    {{ if .Values.sparkvid_api.replicaCount }}
+  replicas: {{ .Values.sparkvid_api.replicaCount }}
+    {{ else if .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
+    {{ else }}
   replicas: 1
+    {{ end }}
   selector:
     matchLabels:
-      io.k.service: sparkvid-api
+      app: sparkvid-api
   strategy:
     type: Recreate
   template:
     metadata:
       annotations:
-        k.image-pull-policy: Always
         k.service.type: Nodeport
-        k.version: 1.22.0 (955b78124)
       creationTimestamp: null
       labels:
-        io.k.service: sparkvid-api
+        app: sparkvid-api
     spec:
       volumes:
         - name: sparkvid-api-hostpath0
@@ -36,23 +40,29 @@ spec:
       containers:
         - env:
             - name: spring.data.mongodb.uri
-              value: mongodb://mongodb-vids:27017/local
+              value: {{ tpl ( index .Values.sparkvid_api.env "vid.data.mongodb.uri" ) . | quote }}
             - name: video.mongo.database
-              value: local
+              value: {{ tpl ( index .Values.env "mongodb_sparkvid_api_database" ) . | quote }}
             - name: video.mongo.uri
-              value: mongodb://mongodb-vids:27017/
-          image: docker.io/fimperato/sparkvid-api:1.0.3-RELEASE
+              value: {{ tpl ( index .Values.env "mongodb_sparkvid_api_host" ) . | quote }}
+          #image: localhost:5000/sparkvid-api:1.0.3-RELEASE
+          image: "{{ tpl .Values.sparkvid_api.image.repository . }}:{{ tpl .Values.sparkvid_api.image.tag . }}"
+            {{ if .Values.sparkvid_api.image.pullPolicy }}
+          imagePullPolicy: "{{ tpl .Values.sparkvid_api.image.pullPolicy . }}"
+            {{ else }}
           imagePullPolicy: Always
+            {{ end }}
           name: sparkvidapi
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.sparkvid_api.services.service.port }}
           resources: {}
           volumeMounts:
             - name: sparkvid-api-hostpath0
-              mountPath: /app/dati/
+              mountPath: {{ tpl .Values.sparkvid_api.data.mountPath.vid_api . | quote }}
             - name: sparkvid-model-hostpath0
-              mountPath: /app/models/
+              mountPath: {{ tpl .Values.sparkvid_api.data.mountPath.vid_model . | quote }}
 
       restartPolicy: Always
+      hostNetwork: true
 
 status: {}

@@ -3,19 +3,20 @@ kind: Service
 metadata:
   annotations:
     k.image-pull-policy: Always
-    k.service.type: Nodeport
-    k.version: 1.22.0 (955b78124)
   creationTimestamp: null
   labels:
-    io.k.service: sparkvid-api
+    app: sparkvid-api
+    #chart: {{ template "sparkvid_api.chart" . }}
+    release: {{ .Release.Name }}
   name: sparkvid-api
 spec:
   ports:
     - name: "8080"
-      port: 8080
-      targetPort: 8080
+      port: {{ .Values.sparkvid_api.services.service.port }}
+      targetPort: {{ .Values.sparkvid_api.services.service.port }}
   selector:
-    io.k.service: sparkvid-api
+    app: sparkvid-api
+    release: {{ .Release.Name }}
   type: NodePort
 status:
   loadBalancer: {}

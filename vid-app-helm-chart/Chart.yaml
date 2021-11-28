@@ -1,6 +1,6 @@
 name: chart-app-vid
 description: Helm Chart for movie information manager and movie advice application
-version: 0.0.3
+version: 0.0.4
 apiVersion: v1
 keywords:
   - chart-app-vid
