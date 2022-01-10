@@ -45,7 +45,7 @@ spec:
               value: {{ tpl ( index .Values.env "mongodb_sparkvid_api_database" ) . | quote }}
             - name: video.mongo.uri
               value: {{ tpl ( index .Values.env "mongodb_sparkvid_api_host" ) . | quote }}
-          #image: localhost:5000/sparkvid-api:1.0.3-RELEASE
+          #image: localhost:5000/sparkvid-api:1.0.5-RELEASE
           image: "{{ tpl .Values.sparkvid_api.image.repository . }}:{{ tpl .Values.sparkvid_api.image.tag . }}"
             {{ if .Values.sparkvid_api.image.pullPolicy }}
           imagePullPolicy: "{{ tpl .Values.sparkvid_api.image.pullPolicy . }}"

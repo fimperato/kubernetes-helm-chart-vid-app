@@ -5,7 +5,7 @@ env:
   mongodb_sparkvid_api_host: "mongodb://{{ tpl .Values.environment . }}:27017"
   mongodb_sparkvid_api_database: "local"
   mongodb_sparkvid_api_uri: "{{ tpl .Values.env.mongodb_sparkvid_api_host . }}/{{ tpl .Values.env.mongodb_sparkvid_api_database . }}"
-  sparkvid_api_version: "1.0.3-RELEASE"
+  sparkvid_api_version: "1.0.5-RELEASE"
 
 ################## sparkvid-api: ##################
 
@@ -13,8 +13,9 @@ sparkvid_api:
 
   image:
     pullPolicy: Always
-    repository: docker.io/fimperato/sparkvid-api
-    tag: 1.0.3-RELEASE
+    #repository: docker.io/fimperato/sparkvid-api
+    repository: localhost:5000/sparkvid-api
+    tag: 1.0.5-RELEASE
 
   env:
     vid.data.mongodb.uri: "{{ tpl .Values.env.mongodb_sparkvid_api_uri . }}"
