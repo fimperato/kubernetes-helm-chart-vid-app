@@ -13,8 +13,8 @@ sparkvid_api:
 
   image:
     pullPolicy: Always
-    #repository: docker.io/fimperato/sparkvid-api
-    repository: localhost:5000/sparkvid-api
+    repository: docker.io/fimperato/sparkvid-api
+    #repository: localhost:5000/sparkvid-api
     tag: 1.0.5-RELEASE
 
   env:
